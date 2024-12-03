@@ -1,0 +1,32 @@
+<div class="container">
+    @if (loading) {
+    <span aria-busy="true">Fetching the news...</span>
+    }
+
+    @if (error) {
+    <div>Error fetching news: {{ error }}</div>
+    }
+
+    @if (news) {
+    @for (item of news; track $index) {
+    <article>
+        <header>{{ item.node.title }}</header>
+        @if (item.node.summary) {
+        <p>{{ item.node.summary }}</p>
+        } @else {
+        <p>No summary available.</p>
+        }
+        @if (item.node.launches.edges.length > 0) {
+        <hr />
+        @for (launch of item.node.launches.edges; track $index) {
+        <details>
+            <summary>{{ launch.node.name }}</summary>
+            <p>Launch ID: {{ launch.node.launchId }}</p>
+        </details>
+        }
+        }
+        <footer>{{ item.node.publishedAt }}</footer>
+    </article>
+    }
+    }
+</div>
